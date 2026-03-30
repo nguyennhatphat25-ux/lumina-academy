@@ -1,87 +1,65 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CourseCard from '../components/CourseCard';
+
+const DUMMY_COURSES = [
+  { id: 1, title: 'IELTS Masterclass 7.0+ Toàn diện', category: 'Luyện thi IELTS', price: '1.490.000', rating: 4.9, thumbnail_url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
+  { id: 2, title: 'Tiếng Anh Giao Tiếp Phản Xạ Tự Nhiên', category: 'Anh văn Giao tiếp', price: '850.000', rating: 4.8, thumbnail_url: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
+  { id: 3, title: 'Luyện thi TOEIC 850+ Chinh phục đỉnh cao', category: 'Luyện thi TOEIC', price: '1.299.000', rating: 4.9, thumbnail_url: 'https://images.unsplash.com/photo-1513258496099-4816c02453f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
+  { id: 4, title: 'Tiếng Anh Doanh Nghiệp Cấp Tốc (Business English)', category: 'Anh văn Giao tiếp', price: '1.100.000', rating: 4.9, thumbnail_url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
+];
 
 const Home = () => {
-  const trendingCourses = [
-    { id: 1, title: 'IELTS Masterclass 7.0+ Toàn diện', category: { name: 'Luyện thi IELTS' }, lessons: 45, price: 1490000, studentsCount: 4250, rating: 4.9, thumbnail_url: 'https://via.placeholder.com/400x250/0A1526/FFFFFF?text=IELTS+Masterclass' },
-    { id: 2, title: 'Tiếng Anh Giao Tiếp Phản Xạ Nhanh', category: { name: 'Giao Tiếp' }, lessons: 34, price: 890000, studentsCount: 2180, rating: 4.8, thumbnail_url: 'https://via.placeholder.com/400x250/F58220/FFFFFF?text=Giao+Tiep' },
-    { id: 3, title: 'Tiếng Anh Doanh Nghiệp Cấp Tốc', category: { name: 'Doanh Nghiệp' }, lessons: 40, price: 1450000, studentsCount: 1560, rating: 4.7, thumbnail_url: 'https://via.placeholder.com/400x250/112240/FFFFFF?text=Business+English' },
-    { id: 4, title: 'TOEIC 850+ Chinh phục đỉnh cao', category: { name: 'Luyện thi TOEIC' }, lessons: 45, price: 799000, studentsCount: 5200, rating: 5.0, thumbnail_url: 'https://via.placeholder.com/400x250/1E293B/FFFFFF?text=TOEIC+850' },
-  ];
-
   return (
     <div className="font-sans">
-      {/* HERO SECTION */}
-      <div className="bg-navy-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col-reverse lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2">
-            <span className="inline-block bg-white/10 text-orange-400 text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-wide">Học tiếng Anh không giới hạn</span>
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-              Kiến tạo tương lai <br/><span className="text-orange-500">toàn cầu</span> của bạn
-            </h1>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">Khám phá lộ trình học ngoại ngữ chuyên sâu từ các chuyên gia hàng đầu. Tự tin giao tiếp, chinh phục IELTS/TOEIC và thăng tiến sự nghiệp ngay hôm nay.</p>
-            <div className="flex gap-4">
-              <Link to="/catalog" className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3.5 rounded-xl transition-colors">Bắt đầu học ngay →</Link>
-            </div>
-          </div>
-          <div className="lg:w-1/2">
-             <img src="https://via.placeholder.com/600x500/112240/FFFFFF?text=English+Learning" alt="Hero" className="w-full rounded-2xl shadow-2xl" />
+      {/* HERO SECTION - Được thiết kế lại chuyên nghiệp hơn */}
+      <section className="bg-navy-900 text-white py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          <div className="text-6xl mb-6">🎓</div>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight max-w-3xl mb-6">
+            Lumina Academy - Chinh phục ngoại ngữ, mở khóa tương lai!
+          </h1>
+          <p className="text-xl text-gray-300 max-w-2xl mb-12">
+            Học tiếng Anh thật dễ dàng với các khóa học chất lượng cao, giảng viên chuyên gia, và cộng đồng hỗ trợ nhiệt tình. Bắt đầu ngay hôm nay!
+          </p>
+          <div className="flex gap-6">
+            <Link to="/catalog" className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl transition-colors text-lg shadow-md">
+              Xem danh sách khóa học
+            </Link>
+            <Link to="/roadmap" className="border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-bold px-8 py-4 rounded-xl transition-colors text-lg">
+              Lộ trình học tập
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* DANH MỤC PHỔ BIẾN */}
-      <div className="bg-gray-50 py-20">
+      {/* FEATURED COURSES - Đã gắn link ảnh thật, sắc nét */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-10">
+          <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-navy-900 mb-2">Lộ trình học tập</h2>
-              <p className="text-gray-500">Lựa chọn mục tiêu của bạn để bắt đầu.</p>
+              <h2 className="text-3xl font-bold text-navy-900">Khóa học nổi bật</h2>
+              <p className="text-gray-500 mt-1">Được học viên đánh giá cao và đăng ký nhiều nhất.</p>
             </div>
-            <Link to="/catalog" className="text-orange-500 font-bold text-sm hover:underline">Tất cả danh mục →</Link>
+            <Link to="/catalog" className="text-orange-500 font-bold hover:underline">Xem tất cả →</Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 cursor-pointer transition-colors group">
-              <div className="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📚</div>
-              <h3 className="font-bold text-navy-900 text-lg mb-1">Luyện thi IELTS</h3>
-              <p className="text-sm text-gray-500">Từ mất gốc đến 7.0+</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 cursor-pointer transition-colors group">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🗣️</div>
-              <h3 className="font-bold text-navy-900 text-lg mb-1">Tiếng Anh Giao Tiếp</h3>
-              <p className="text-sm text-gray-500">Phản xạ tự nhiên, tự tin nói</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 cursor-pointer transition-colors group">
-              <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">💼</div>
-              <h3 className="font-bold text-navy-900 text-lg mb-1">Tiếng Anh Doanh Nghiệp</h3>
-              <p className="text-sm text-gray-500">Email, Thuyết trình, Đàm phán</p>
-            </div>
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 cursor-pointer transition-colors group">
-              <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🎯</div>
-              <h3 className="font-bold text-navy-900 text-lg mb-1">Luyện thi TOEIC</h3>
-              <p className="text-sm text-gray-500">Cam kết đầu ra 800+</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* KHÓA HỌC TIÊU BIỂU */}
-      <div className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-navy-900 mb-4">Khóa học tiêu biểu</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto">Những khóa học được đánh giá cao nhất từ hàng ngàn học viên.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            {trendingCourses.map(course => (
-              <Link to="/course" key={course.id} className="block">
-                <CourseCard course={course} />
-              </Link>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+            {DUMMY_COURSES.map(course => (
+              <div key={course.id} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col hover:shadow-lg transition-shadow">
+                <img src={course.thumbnail_url} alt={course.title} className="w-full h-40 object-cover rounded-xl mb-4" />
+                <div className="flex-1">
+                  <span className="bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded">{course.category}</span>
+                  <h3 className="font-bold text-navy-900 text-sm mt-2 mb-2 line-clamp-2">{course.title}</h3>
+                  <div className="flex justify-between items-center text-xs text-gray-500 mt-auto">
+                    <span className="font-bold text-lg text-navy-900">{course.price}đ</span>
+                    <span className="flex items-center gap-1 text-orange-500">★ <span className="text-gray-800 font-bold">{course.rating}</span></span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

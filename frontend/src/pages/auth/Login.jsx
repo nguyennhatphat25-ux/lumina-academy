@@ -12,10 +12,9 @@ const Login = () => {
     e.preventDefault();
     const role = login(email, password);
     
-    if (role === 'admin') {
-      navigate('/admin'); // Admin thì vẫn vào Dashboard quản trị
-    } else if (role === 'user') {
-      navigate('/'); // ĐÃ SỬA: User đăng nhập xong sẽ ở lại Trang chủ
+    // Đã sửa lại luồng: Cho dù Admin hay User, đăng nhập xong cũng về trang chủ
+    if (role === 'admin' || role === 'user') {
+      navigate('/');
     } else {
       alert("Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.");
     }
