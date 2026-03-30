@@ -7,15 +7,12 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // ==========================================
-  // CODE PHÒNG THỦ: Tránh sập web khi Context bị null
   const cartContext = useCart();
-  const cartItems = cartContext?.cartItems || []; // Nếu null thì tự động lấy mảng rỗng []
+  const cartItems = cartContext?.cartItems || [];
 
   const authContext = useAuth();
-  const auth = authContext?.auth || { isAuth: false, user: null }; // Nếu null thì coi như chưa đăng nhập
+  const auth = authContext?.auth || { isAuth: false, user: null };
   const logout = authContext?.logout || (() => {});
-  // ==========================================
 
   const isActive = (path) => location.pathname === path ? "text-orange-500 border-b-2 border-orange-500" : "text-gray-600 hover:text-navy-900";
 
@@ -28,10 +25,18 @@ const Header = () => {
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-navy-900 text-white font-bold text-xl p-1.5 rounded-lg leading-none">LA</div>
-            <span className="font-bold text-xl text-navy-900 tracking-tight">Lumina Academy</span>
+          
+          {/* 🌟 LOGO PREMIUM MỚI (Biểu tượng Quyển sách mở) */}
+          <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-2.5 group">
+            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-orange-400 shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 group-hover:-translate-y-0.5 transition-all duration-300">
+               {/* Icon SVG Quyển sách (Icon Feather) */}
+               <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+               </svg>
+            </div>
+            <span className="font-extrabold text-2xl tracking-tight text-navy-900 group-hover:text-orange-600 transition-colors">
+              Lumina<span className="text-orange-500">.</span>
+            </span>
           </Link>
 
           {/* Menu */}
@@ -39,7 +44,7 @@ const Header = () => {
             <Link to="/catalog" className={`text-sm font-semibold h-full flex items-center ${isActive('/catalog')}`}>Khóa học</Link>
             <Link to="/roadmap" className={`text-sm font-semibold h-full flex items-center ${isActive('/roadmap')}`}>Lộ trình</Link>
             <Link to="/instructors" className={`text-sm font-semibold h-full flex items-center ${isActive('/instructors')}`}>Giảng viên</Link>
-            <Link to="/enterprise" className={`text-sm font-semibold h-full flex items-center ${isActive('/enterprise')}`}>Doanh nghiệp</Link>
+            <Link to="/blog" className={`text-sm font-semibold h-full flex items-center ${isActive('/blog')}`}>Tin tức</Link>
           </nav>
 
           <div className="flex items-center gap-6">
@@ -53,7 +58,7 @@ const Header = () => {
               )}
             </Link>
 
-            {/* Tài khoản: Hiện Đăng nhập hoặc Menu Dropdown */}
+            {/* Tài khoản */}
             {auth.isAuth ? (
               <div className="relative group cursor-pointer h-10 flex items-center">
                 <div className="flex items-center gap-2">
@@ -63,7 +68,6 @@ const Header = () => {
                   </div>
                 </div>
                 
-                {/* Lớp bọc pt-4 (padding-top) tạo cầu nối để không bị mất hover */}
                 <div className="hidden group-hover:block absolute top-full right-0 pt-4 z-50">
                   <div className="bg-white border border-gray-100 shadow-xl rounded-xl w-48 py-2 overflow-hidden">
                      <Link to={auth.user?.role === 'admin' ? '/admin' : '/my-library'} className="block px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors">

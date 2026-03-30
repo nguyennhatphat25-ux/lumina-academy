@@ -18,6 +18,7 @@ import Checkout from './pages/Checkout';
 import Roadmap from './pages/Roadmap';
 import Instructors from './pages/Instructors';
 import Enterprise from './pages/Enterprise';
+import Blog from './pages/Blog';
 
 // Auth & User Pages
 import Login from './pages/auth/Login';
@@ -51,6 +52,7 @@ const AppRoutes = () => {
         <Route path="/catalog" element={<CourseCatalog />} />
         <Route path="/course" element={<CourseDetail />} /> 
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/blog" element={<Blog />} />
         
         {/* === ĐÃ THÊM LẠI 3 ĐƯỜNG DẪN NÀY VÀO HỆ THỐNG === */}
         <Route path="/roadmap" element={<Roadmap />} />
