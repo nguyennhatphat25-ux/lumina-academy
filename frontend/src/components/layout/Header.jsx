@@ -3,6 +3,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 
+// 🌟 BƯỚC 1: IMPORT HÌNH ẢNH LOGO MỚI
+import LogoImage from '../../assets/images/logo_lumina.jpg'; // Kiểm tra kỹ đường dẫn này
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,17 +29,15 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* 🌟 LOGO PREMIUM MỚI (Biểu tượng Quyển sách mở) */}
-          <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-2.5 group">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-orange-400 shadow-lg shadow-orange-500/40 group-hover:shadow-orange-500/60 group-hover:-translate-y-0.5 transition-all duration-300">
-               {/* Icon SVG Quyển sách (Icon Feather) */}
-               <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-               </svg>
-            </div>
-            <span className="font-extrabold text-2xl tracking-tight text-navy-900 group-hover:text-orange-600 transition-colors">
-              Lumina<span className="text-orange-500">.</span>
-            </span>
+          {/* 🌟 BƯỚC 2: THAY THẾ LOGO CŨ BẰNG HÌNH ẢNH MỚI */}
+          {/* Mình đã xóa khối <div relative w-10 h-10...> và khối <span font-extrabold...> cũ */}
+          <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center group">
+            <img 
+              src={LogoImage} 
+              alt="Lumina Academy Logo" 
+              className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+              // Chiều cao h-14 (khoảng 56px) là kích thước lý tưởng cho header, w-auto để giữ tỷ lệ
+            />
           </Link>
 
           {/* Menu */}
