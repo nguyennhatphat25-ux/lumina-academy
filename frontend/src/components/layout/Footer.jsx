@@ -1,28 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// 🌟 BƯỚC 1: IMPORT HÌNH ẢNH LOGO MỚI (Tương tự Header)
+// 🌟 BƯỚC 1: IMPORT HÌNH ẢNH LOGO MỚI (Vẫn dùng file ảnh đuôi .jpg xịn xò)
 import LogoImage from '../../assets/images/logo_lumina.jpg'; // Kiểm tra kỹ đường dẫn này
 
 const Footer = () => {
   return (
-    <footer className="bg-navy-900 text-gray-300 py-16 font-sans border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-navy-900 text-gray-300 py-16 font-sans border-t border-gray-800 relative overflow-hidden">
+      
+      {/* TRANG TRÍ MỜ: Thêm một vòng tròn cam mờ phía sau để footer có chiều sâu hơn */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500 rounded-full mix-blend-screen filter blur-[100px] opacity-10 pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           
           <div className="col-span-1 md:col-span-1">
-            {/* 🌟 BƯỚC 2: THAY THẾ LOGO CŨ BẰNG HÌNH ẢNH MỚI */}
-            {/* Đã thêm nền mờ 'bg-white/10' và padding để làm logo nổi bật hơn trên nền tối */}
+            {/* 🌟 BƯỚC 2: HÒA QUYỆN LOGO TUYỆT ĐỐI VÀO BÓNG TỐI */}
+            {/* Đã sửa: 
+                - bg-white/5 và backdrop-blur-sm: Làm cái card mờ đi thành lớp kính.
+                - mix-blend-multiply trên ảnh: Giúp tàng hình nền trắng JPG.
+                - hover:shadow-[0_0_25px_8px_rgba(249,115,22,0.15)]: Thêm hiệu ứng phát sáng mờ khi chỉ chuột vào.
+            */}
             <Link 
               to="/" 
               onClick={() => window.scrollTo(0, 0)} 
-              className="items-center inline-flex mb-6 group bg-white/10 rounded-xl p-1.5 transition-all duration-300 hover:bg-white/20 shadow-inner shadow-black/10"
+              className="inline-flex items-center mb-6 group bg-white/5 backdrop-blur-sm rounded-2xl p-2.5 transition-all duration-300 border border-white/5 hover:border-orange-500/20 hover:shadow-[0_0_25px_8px_rgba(249,115,22,0.15)] shadow-inner shadow-black/10"
             >
               <img 
                 src={LogoImage} 
                 alt="Lumina Academy Logo" 
-                className="h-16 w-auto object-contain transition-transform group-hover:scale-105" 
-                // Chiều cao cho footer h-16 (khoảng 64px) lớn hơn header một chút
+                className="h-16 w-auto object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105" 
               />
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
