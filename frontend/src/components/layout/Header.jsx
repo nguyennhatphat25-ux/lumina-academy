@@ -20,6 +20,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Nếu kéo xuống quá 20px thì bật hiệu ứng nổi bật
       if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
@@ -39,6 +40,7 @@ const Header = () => {
   };
 
   return (
+    // Header Kính mờ (Glassmorphism) + Động khi cuộn
     <header 
       className={`sticky top-0 z-50 font-sans transition-all duration-300 ${
         isScrolled 
@@ -49,13 +51,28 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
           
+          {/* 🌟 LOGO BO TRÒN GIỐNG LOGO GIỮA - Đã được cập nhật ở đây */}
           <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center group relative">
-            <img 
-              src={LogoImage} 
-              alt="Lumina Academy Logo" 
-              // 🌟 CHỖ CẦN FIX ĐÂY NÈ: Đã thêm class mix-blend-multiply để tàng hình nền trắng của JPG
-              className={`w-auto object-contain mix-blend-multiply transition-all duration-300 group-hover:scale-105 ${isScrolled ? 'h-12' : 'h-14'}`} 
-            />
+            
+            {/* Vòng tròn hào quang mờ phía sau khi hover (Glow effect) */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-orange-200/40 to-orange-100/10 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+            {/* Khối bo tròn bọc logo */}
+            {/* - Đã sửa h-14 w-14 -> h-12 w-12 khi cuộn để nó cân đối hơn
+                - bg-white: Tạo nền trắng tròn cho ảnh
+                - rounded-full: Bo tròn hoàn toàn
+                - shadow-lg shadow-orange-500/10: Hiệu ứng bóng mờ màu cam cực kỳ nhẹ để nổi bật
+                - border border-gray-100: Đường viền mờ tạo chiều sâu
+            */}
+            <div className={`relative flex items-center justify-center bg-white rounded-full shadow-lg shadow-orange-500/10 border border-gray-100 mix-blend-multiply transition-all duration-300 ${isScrolled ? 'h-12 w-12' : 'h-14 w-14'}`}>
+              <img 
+                src={LogoImage} 
+                alt="Lumina Academy Logo" 
+                // w-auto h-auto và object-contain: Giữ nguyên tỷ lệ ảnh gốc, không bị bóp méo
+                // padding p-1.5 hoặc p-2: Để ảnh không chạm sát viền
+                className={`w-auto h-auto object-contain transition-all duration-300 group-hover:scale-105 ${isScrolled ? 'p-1.5' : 'p-2'}`} 
+              />
+            </div>
           </Link>
 
           {/* Menu */}
@@ -67,6 +84,7 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center gap-6">
+            {/* Giỏ Hàng */}
             <Link to="/checkout" className="text-gray-600 hover:text-orange-500 transition-colors relative">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
               {cartItems.length > 0 && (
@@ -76,6 +94,7 @@ const Header = () => {
               )}
             </Link>
 
+            {/* Tài khoản */}
             {auth.isAuth ? (
               <div className="relative group cursor-pointer flex items-center h-full">
                 <div className="flex items-center gap-2">
