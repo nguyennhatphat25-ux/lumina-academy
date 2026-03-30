@@ -16,7 +16,7 @@ const Footer = () => {
             <Link 
               to="/" 
               onClick={() => window.scrollTo(0, 0)} 
-              className="flex items-center inline-flex mb-6 group bg-white/10 rounded-xl p-1.5 transition-all duration-300 hover:bg-white/20 shadow-inner shadow-black/10"
+              className="items-center inline-flex mb-6 group bg-white/10 rounded-xl p-1.5 transition-all duration-300 hover:bg-white/20 shadow-inner shadow-black/10"
             >
               <img 
                 src={LogoImage} 
