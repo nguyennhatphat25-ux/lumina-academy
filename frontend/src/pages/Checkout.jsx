@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  // Đã thêm removeFromCart vào đây
+  const { cartItems, cartTotal, clearCart, removeFromCart } = useCart();
   const { auth, addPurchasedCourses } = useAuth();
   const navigate = useNavigate();
   
-  // Tự động điền nếu đã đăng nhập
   const [customerName, setCustomerName] = useState(auth.user?.name || '');
   const [customerEmail, setCustomerEmail] = useState(auth.user?.email || '');
   
@@ -19,7 +19,6 @@ const Checkout = () => {
   const discount = cartTotal > 0 ? 200000 : 0;
   const finalTotal = cartTotal - discount;
 
-  // Khóa nút nếu chưa nhập tên và email
   const isFormValid = customerName.trim() !== '' && customerEmail.trim() !== '';
 
   const handleProcessPayment = () => {
@@ -32,7 +31,6 @@ const Checkout = () => {
 
   const handleConfirmPayment = () => {
     const methodString = paymentMethod === 'bank' ? 'Chuyển khoản QR' : 'VNPAY / MoMo';
-    // Đẩy dữ liệu vào DB kèm Tên và Email
     addPurchasedCourses(cartItems, finalTotal, methodString, customerName, customerEmail);
     
     setShowGateway(false);
@@ -102,12 +100,26 @@ const Checkout = () => {
           <div className="w-full lg:w-1/3">
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
               <h3 className="text-xl font-bold text-navy-900 mb-6 border-b pb-4">Tóm tắt đơn hàng</h3>
-              {cartItems.map(item => (
-                <div key={item.id} className="flex items-center gap-4 mb-4">
-                  <div className="flex-1"><h4 className="text-xs font-bold">{item.title}</h4></div>
-                  <span className="font-bold text-sm">{Number(item.price).toLocaleString('vi-VN')}</span>
-                </div>
-              ))}
+              
+              {/* DANH SÁCH KHÓA HỌC CÓ NÚT XÓA Ở ĐÂY */}
+              {cartItems.length === 0 ? (
+                <p className="text-gray-500 italic text-sm mb-4">Giỏ hàng đang trống</p>
+              ) : (
+                cartItems.map(item => (
+                  <div key={item.id} className="flex items-center gap-4 mb-4">
+                    <div className="flex-1"><h4 className="text-xs font-bold">{item.title}</h4></div>
+                    <span className="font-bold text-sm">{Number(item.price).toLocaleString('vi-VN')}</span>
+                    {/* NÚT THÙNG RÁC XÓA KHÓA HỌC */}
+                    <button 
+                      onClick={() => removeFromCart(item.id)} 
+                      className="text-gray-400 hover:text-red-500 transition-colors p-1 bg-gray-50 rounded"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                  </div>
+                ))
+              )}
+
               <div className="border-t pt-4 mt-6">
                 <div className="flex justify-between font-bold text-xl"><span className="text-navy-900">Tổng</span><span className="text-orange-500">{Number(finalTotal > 0 ? finalTotal : 0).toLocaleString('vi-VN')}đ</span></div>
               </div>
