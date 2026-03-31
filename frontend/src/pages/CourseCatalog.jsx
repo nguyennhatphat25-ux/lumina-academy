@@ -1,101 +1,106 @@
 import React, { useState, useEffect } from 'react';
-// LƯU Ý: Nếu lúc nãy bạn chưa kéo file CourseListItem ra ngoài, thì sửa dòng dưới thành: import CourseListItem from '../components/layout/CourseListItem';
 import CourseListItem from '../components/CourseListItem';
 
+// 🌟 DỮ LIỆU ĐƯỢC MỞ RỘNG (12 Khóa học)
+const ENGLISH_COURSES_DB = [
+  { id: 12, title: 'IELTS Masterclass 7.0+ Toàn diện', category: 'Luyện thi IELTS', price: 1490000, level: 'Nâng cao', rating: 4.9, description: 'Làm chủ cả 4 kỹ năng Nghe - Nói - Đọc - Viết. Khóa học thực chiến giúp bạn xây dựng tư duy logic.', thumbnail_url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80' },
+  { id: 11, title: 'Tiếng Anh Giao Tiếp Phản Xạ Tự Nhiên', category: 'Anh văn Giao tiếp', price: 850000, level: 'Cơ bản', rating: 4.8, description: 'Học cách giao tiếp trong các tình huống thực tế đời sống, xóa bỏ rào cản sợ nói.', thumbnail_url: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=600&q=80' },
+  { id: 10, title: 'TOEIC 850+ Chinh phục đỉnh cao', category: 'Luyện thi TOEIC', price: 1299000, level: 'Nâng cao', rating: 4.9, description: 'Lộ trình thực chiến luyện đề TOEIC 4 kỹ năng giúp bạn đạt band điểm mơ ước.', thumbnail_url: 'https://images.unsplash.com/photo-1513258496099-4816c02453f4?w=600&q=80' },
+  { id: 9, title: 'Tiếng Anh Doanh Nghiệp (Business English)', category: 'Doanh nghiệp', price: 1100000, level: 'Trung cấp', rating: 4.9, description: 'Luyện kỹ năng email, thuyết trình, đàm phán bằng tiếng Anh chuyên nghiệp.', thumbnail_url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80' },
+  { id: 8, title: 'IELTS Foundation - Xây gốc 5.0+', category: 'Luyện thi IELTS', price: 890000, level: 'Cơ bản', rating: 4.7, description: 'Dành cho người mới bắt đầu hoặc mất gốc, xây dựng nền tảng ngữ pháp và từ vựng.', thumbnail_url: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&q=80' },
+  { id: 7, title: 'Chuyên sâu IELTS Writing & Speaking 6.5+', category: 'Luyện thi IELTS', price: 1250000, level: 'Trung cấp', rating: 5.0, description: 'Tập trung khắc phục lỗi sai, mở rộng vốn từ vựng học thuật và luyện phản xạ.', thumbnail_url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80' },
+  { id: 6, title: 'TOEIC Cơ bản 500+ (Mất gốc)', category: 'Luyện thi TOEIC', price: 750000, level: 'Cơ bản', rating: 4.6, description: 'Củng cố ngữ pháp và từ vựng cốt lõi thường gặp trong đề thi TOEIC.', thumbnail_url: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80' },
+  { id: 5, title: 'Phát Âm Tiếng Anh Chuẩn Giọng Mỹ', category: 'Anh văn Giao tiếp', price: 650000, level: 'Cơ bản', rating: 4.8, description: 'Luyện IPA, trọng âm, nối âm giúp bạn nói tiếng Anh tự nhiên như người bản xứ.', thumbnail_url: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=600&q=80' },
+  { id: 4, title: 'Tiếng Anh Trẻ Em Mầm Non (Kids Starter)', category: 'Trẻ em', price: 1500000, level: 'Cơ bản', rating: 4.9, description: 'Phương pháp học qua bài hát và trò chơi, giúp bé yêu thích tiếng Anh từ nhỏ.', thumbnail_url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80' },
+  { id: 3, title: 'IELTS Intensive Reading & Listening', category: 'Luyện thi IELTS', price: 950000, level: 'Trung cấp', rating: 4.8, description: 'Bí kíp Skimming, Scanning và Keyword bắt Keyword nhanh chuẩn xác 100%.', thumbnail_url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80' },
+  { id: 2, title: 'Tiếng Anh Thuyết Trình Trước Đám Đông', category: 'Doanh nghiệp', price: 1350000, level: 'Nâng cao', rating: 4.9, description: 'Vượt qua nỗi sợ, xây dựng cấu trúc bài nói và Body Language tự tin.', thumbnail_url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80' },
+  { id: 1, title: 'Ngữ Pháp Tiếng Anh Toàn Diện 2024', category: 'Anh văn Giao tiếp', price: 590000, level: 'Cơ bản', rating: 4.7, description: 'Tổng hợp mọi cấu trúc ngữ pháp từ A-Z, thích hợp cho học sinh và sinh viên.', thumbnail_url: 'https://images.unsplash.com/photo-1456752003758-0aa34ab7f1fb?w=600&q=80' },
+];
+
+const categories = ['Tất cả', 'Luyện thi IELTS', 'Luyện thi TOEIC', 'Anh văn Giao tiếp', 'Doanh nghiệp', 'Trẻ em'];
+const levels = ['Cơ bản', 'Trung cấp', 'Nâng cao'];
+
 const CourseCatalog = () => {
-  // ĐÂY CHÍNH LÀ BIẾN BỊ THIẾU KHIẾN WEB BỊ TRẮNG NÈ:
-  const categories = ['Tất cả', 'Luyện thi IELTS', 'Anh văn Giao tiếp', 'Luyện thi TOEIC'];
-
-  const ENGLISH_COURSES_DB = [
-    { id: 1, title: 'IELTS Masterclass 7.0+ Toàn diện', category: 'Luyện thi IELTS', lessons: 45, duration: '60 giờ', level: 'Nâng cao', price: 1490000, studentsCount: 1520, rating: 4.9, instructor: 'Dr. Minh Nguyen', description: 'Làm chủ cả 4 kỹ năng Nghe - Nói - Đọc - Viết. Khóa học thực chiến giúp bạn xây dựng tư duy logic.', thumbnail_url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 2, title: 'IELTS Foundation - Xây gốc 5.0+', category: 'Luyện thi IELTS', lessons: 30, duration: '45 giờ', level: 'Cơ bản', price: 890000, studentsCount: 950, rating: 4.8, instructor: 'Ms. Lan Huong', description: 'Dành cho người mới bắt đầu hoặc mất gốc, xây dựng nền tảng ngữ pháp và từ vựng.', thumbnail_url: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 3, title: 'Chuyên sâu IELTS Writing & Speaking 6.5+', category: 'Luyện thi IELTS', lessons: 25, duration: '35 giờ', level: 'Trung cấp', price: 1250000, studentsCount: 780, rating: 5.0, instructor: 'Mr. David Smith', description: 'Tập trung khắc phục lỗi sai, mở rộng vốn từ vựng học thuật và luyện phản xạ nói trôi chảy.', thumbnail_url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 4, title: 'Tiếng Anh Giao Tiếp Phản Xạ Tự Nhiên', category: 'Anh văn Giao tiếp', lessons: 24, duration: '32 giờ', level: 'Cơ bản', price: 850000, studentsCount: 2100, rating: 4.7, instructor: 'Ms. Anna Nguyễn', description: 'Học cách giao tiếp trong các tình huống thực tế đời sống, xóa bỏ rào cản sợ nói.', thumbnail_url: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 5, title: 'Tiếng Anh Doanh Nghiệp Cấp Tốc (Business English)', category: 'Anh văn Giao tiếp', lessons: 20, duration: '30 giờ', level: 'Trung cấp', price: 1100000, studentsCount: 620, rating: 4.9, instructor: 'Mr. Michael Chen', description: 'Luyện kỹ năng email, thuyết trình, đàm phán bằng tiếng Anh chuyên nghiệp.', thumbnail_url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 6, title: 'TOEIC 850+ Chinh phục đỉnh cao', category: 'Luyện thi TOEIC', lessons: 40, duration: '55 giờ', level: 'Nâng cao', price: 1299000, studentsCount: 1890, rating: 4.9, instructor: 'Dr. Minh Nguyen', description: 'Lộ trình thực chiến luyện đề TOEIC 4 kỹ năng giúp bạn đạt band điểm mơ ước.', thumbnail_url: 'https://images.unsplash.com/photo-1513258496099-4816c02453f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-    { id: 7, title: 'TOEIC Cơ bản 500+ Dành cho người mất gốc', category: 'Luyện thi TOEIC', lessons: 32, duration: '40 giờ', level: 'Cơ bản', price: 750000, studentsCount: 1300, rating: 4.6, instructor: 'Ms. Lan Huong', description: 'Củng cố ngữ pháp và từ vựng cốt lõi thường gặp trong đề thi TOEIC.', thumbnail_url: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80' },
-  ];
-
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState(ENGLISH_COURSES_DB);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('Tất cả');
+  const [activeLevels, setActiveLevels] = useState([]);
+  const [sortBy, setSortBy] = useState('Mới nhất');
 
-  // Logic lọc dữ liệu
+  const handleLevelToggle = (level) => {
+    setActiveLevels(prev => prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]);
+  };
+
   useEffect(() => {
     setLoading(true);
-    let filteredCourses = ENGLISH_COURSES_DB;
-    if (activeCategory !== 'Tất cả') {
-      filteredCourses = ENGLISH_COURSES_DB.filter(course => course.category === activeCategory);
-    }
-    setCourses(filteredCourses);
-    setLoading(false);
-  }, [activeCategory]);
+    let result = [...ENGLISH_COURSES_DB];
+
+    if (activeCategory !== 'Tất cả') result = result.filter(c => c.category === activeCategory);
+    if (activeLevels.length > 0) result = result.filter(c => activeLevels.includes(c.level));
+
+    if (sortBy === 'Giá tăng dần') result.sort((a, b) => a.price - b.price);
+    else if (sortBy === 'Giá giảm dần') result.sort((a, b) => b.price - a.price);
+    else if (sortBy === 'Đánh giá cao') result.sort((a, b) => b.rating - a.rating);
+    else result.sort((a, b) => b.id - a.id);
+
+    setTimeout(() => { setCourses(result); setLoading(false); }, 400);
+  }, [activeCategory, activeLevels, sortBy]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex gap-10 font-sans bg-gray-50 min-h-screen">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-10 font-sans bg-gray-50 min-h-screen">
       
-      {/* SIDEBAR BỘ LỌC */}
-      <aside className="w-1/4 hidden md:block space-y-10">
+      {/* CỘT TRÁI - BỘ LỌC */}
+      <aside className="w-full md:w-1/4 space-y-10">
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Danh mục Lộ trình</h2>
-          <p className="text-sm text-gray-500 mb-6">Chinh phục tri thức ngoại ngữ</p>
-          
-          <ul className="space-y-2">
+          <h2 className="text-xl font-extrabold text-navy-900 mb-1">Danh mục khóa học</h2>
+          <ul className="space-y-2 mt-6">
             {categories.map(cat => (
               <li key={cat}>
-                <button 
-                  onClick={() => setActiveCategory(cat)}
-                  className={`w-full flex items-center px-4 py-3 rounded-xl border transition-colors ${activeCategory === cat ? 'bg-orange-50 text-orange-500 font-semibold border-orange-100' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium border-transparent'}`}
-                >
-                  <span className="mr-3">{cat === 'Tất cả' ? '🌐' : cat === 'Luyện thi IELTS' ? '📚' : cat === 'Anh văn Giao tiếp' ? '🗣️' : '🎯'}</span> {cat}
+                <button onClick={() => setActiveCategory(cat)} className={`w-full text-left px-5 py-3.5 rounded-2xl border transition-all font-bold text-sm ${activeCategory === cat ? 'bg-navy-900 text-white border-navy-900 shadow-md' : 'bg-white text-gray-600 hover:border-orange-500 hover:text-orange-500 border-gray-100'}`}>
+                  {cat}
                 </button>
               </li>
             ))}
           </ul>
         </div>
-
         <div>
-          <h3 className="font-bold text-gray-900 mb-4">Cấp độ học</h3>
-          <div className="space-y-3">
-            {['Cơ bản', 'Trung cấp', 'Nâng cao'].map(level => (
-               <label key={level} className="flex items-center space-x-3 text-sm text-gray-600 cursor-pointer">
-                <input type="checkbox" className="form-checkbox h-4 w-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500" />
-                <span>{level}</span>
+          <h3 className="font-extrabold text-navy-900 mb-4 text-lg">Cấp độ học</h3>
+          <div className="space-y-3 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+            {levels.map(level => (
+               <label key={level} className="flex items-center space-x-3 text-sm text-gray-700 cursor-pointer hover:text-orange-500 transition-colors">
+                <input type="checkbox" checked={activeLevels.includes(level)} onChange={() => handleLevelToggle(level)} className="h-5 w-5 text-orange-500 rounded-md border-gray-300 focus:ring-orange-500 cursor-pointer" />
+                <span className="font-bold">{level}</span>
                </label>
             ))}
           </div>
         </div>
       </aside>
 
-      {/* DANH SÁCH KHÓA HỌC */}
+      {/* CỘT PHẢI - DANH SÁCH */}
       <main className="w-full md:w-3/4">
-        <div className="flex justify-between items-center mb-10">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Tất cả lớp học</h1>
-            <p className="text-gray-500">Đầu tư vào bản thân là khoản đầu tư tốt nhất.</p>
-          </div>
-          <div className="flex items-center gap-3 bg-white p-2 rounded-xl border border-gray-100">
-            <span className="text-sm text-gray-500 pl-2">Sắp xếp:</span>
-            <select className="border-transparent rounded-lg px-4 py-1.5 text-sm font-medium focus:outline-none focus:ring-0 text-gray-700 bg-gray-50 cursor-pointer">
-              <option>Mới nhất</option>
-              <option>Giá tăng dần</option>
-              <option>Đánh giá cao</option>
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm gap-4">
+          <p className="text-gray-500 font-medium">Tìm thấy <strong className="text-orange-500 text-lg">{courses.length}</strong> khóa học.</p>
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-bold text-gray-500">Sắp xếp theo:</span>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border border-gray-200 font-bold text-navy-900 bg-gray-50 rounded-xl px-4 py-2.5 cursor-pointer outline-none focus:border-orange-500">
+              <option value="Mới nhất">Mới nhất</option>
+              <option value="Giá tăng dần">Giá tăng dần</option>
+              <option value="Giá giảm dần">Giá giảm dần</option>
+              <option value="Đánh giá cao">Đánh giá cao</option>
             </select>
           </div>
         </div>
 
         {loading ? (
-          <div className="text-center py-20 text-gray-500 font-medium">Đang tải dữ liệu lớp học...</div>
+          <div className="flex justify-center py-32"><div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-orange-500"></div></div>
         ) : (
           <div className="space-y-6">
-            {courses.length > 0 ? courses.map(course => (
-              <CourseListItem key={course.id} course={course} />
-            )) : (
-              <div className="bg-white rounded-2xl p-20 text-center border border-gray-100 shadow-sm">
-                <p className="text-7xl mb-6">🤷‍♂️</p>
-                <p className="text-gray-500 font-medium">Chưa có lớp học nào trong danh mục này.</p>
-              </div>
-            )}
+            {courses.length > 0 ? courses.map(course => <CourseListItem key={course.id} course={course} />) : 
+            <div className="text-center py-32 bg-white rounded-3xl border border-gray-100 shadow-sm">
+               <span className="text-6xl block mb-4">🕵️‍♂️</span>
+               <h3 className="text-xl font-bold text-navy-900">Không tìm thấy khóa học phù hợp</h3>
+               <p className="text-gray-500 mt-2">Thử bỏ bớt các bộ lọc bên trái xem sao nhé!</p>
+            </div>}
           </div>
         )}
       </main>

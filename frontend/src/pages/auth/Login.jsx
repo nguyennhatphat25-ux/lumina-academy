@@ -30,7 +30,6 @@ const Login = () => {
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-navy-900 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-4 shadow-lg">LA</div>
           <h1 className="text-2xl font-bold text-navy-900">Đăng nhập hệ thống</h1>
-          <p className="text-sm text-gray-500 mt-2">Dùng <strong className="text-navy-900">admin@lumina.com</strong> (Pass: 123456) để vào Admin.</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-5">

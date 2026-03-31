@@ -9,7 +9,6 @@ const Home = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
 
-  // 🌟 Hàm xử lý bắt buộc đăng nhập mới được thêm vào giỏ
   const handleAddToCart = (course) => {
     if (!auth.isAuth) {
       alert("Bạn cần đăng nhập để đăng ký khóa học này!");
@@ -35,8 +34,10 @@ const Home = () => {
         <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-[20rem] h-[20rem] bg-blue-500 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto px-4 text-center flex flex-col items-center relative z-10">
-          <div className="bg-white/95 backdrop-blur-md p-5 rounded-[2.5rem] shadow-2xl shadow-orange-500/20 mb-10 border border-white/20 transform hover:scale-105 transition-all duration-500">
-             <img src={LogoImage} alt="Lumina Academy" className="h-20 w-auto mix-blend-multiply" />
+          
+          {/* 🌟 ĐÃ SỬA LẠI THÀNH HÌNH CHỮ NHẬT BO GÓC SIÊU MƯỢT */}
+          <div className="bg-white/95 backdrop-blur-md p-4 md:px-8 md:py-5 rounded-[2rem] shadow-2xl shadow-orange-500/20 mb-10 border border-white/20 transform hover:scale-105 transition-all duration-500">
+             <img src={LogoImage} alt="Lumina Academy" className="h-16 md:h-20 w-auto mix-blend-multiply" />
           </div>
 
           <span className="text-orange-500 font-bold tracking-[0.25em] uppercase text-sm mb-5 block">
@@ -95,7 +96,6 @@ const Home = () => {
                     <span className="text-xs text-gray-400 block mb-1 font-medium italic">Học phí</span>
                     <span className="font-black text-navy-900 text-xl">{course.price}đ</span>
                   </div>
-                  {/* NÚT THÊM VÀO GIỎ SỬ DỤNG HÀM KIỂM TRA ĐĂNG NHẬP */}
                   <button 
                     onClick={() => handleAddToCart(course)} 
                     className="bg-navy-900 hover:bg-orange-500 text-white p-3 rounded-xl transition-all duration-300 shadow-lg shadow-navy-900/10 hover:shadow-orange-500/30"

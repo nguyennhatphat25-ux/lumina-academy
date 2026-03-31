@@ -51,26 +51,19 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
           
-          {/* 🌟 LOGO BO TRÒN GIỐNG LOGO GIỮA - Đã được cập nhật ở đây */}
+          {/* 🌟 LOGO HÌNH CHỮ NHẬT BO GÓC */}
           <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center group relative">
             
-            {/* Vòng tròn hào quang mờ phía sau khi hover (Glow effect) */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-orange-200/40 to-orange-100/10 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            {/* Vòng tròn hào quang mờ phía sau khi hover (Glow effect) cũng đổi thành bo góc */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-orange-200/40 to-orange-100/10 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-            {/* Khối bo tròn bọc logo */}
-            {/* - Đã sửa h-14 w-14 -> h-12 w-12 khi cuộn để nó cân đối hơn
-                - bg-white: Tạo nền trắng tròn cho ảnh
-                - rounded-full: Bo tròn hoàn toàn
-                - shadow-lg shadow-orange-500/10: Hiệu ứng bóng mờ màu cam cực kỳ nhẹ để nổi bật
-                - border border-gray-100: Đường viền mờ tạo chiều sâu
-            */}
-            <div className={`relative flex items-center justify-center bg-white rounded-full shadow-lg shadow-orange-500/10 border border-gray-100 mix-blend-multiply transition-all duration-300 ${isScrolled ? 'h-12 w-12' : 'h-14 w-14'}`}>
+            {/* Khối bo tròn bọc logo đã chuyển thành rounded-2xl và dùng padding */}
+            <div className={`relative flex items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 ${isScrolled ? 'px-3 py-1.5' : 'px-4 py-2'}`}>
               <img 
                 src={LogoImage} 
                 alt="Lumina Academy Logo" 
-                // w-auto h-auto và object-contain: Giữ nguyên tỷ lệ ảnh gốc, không bị bóp méo
-                // padding p-1.5 hoặc p-2: Để ảnh không chạm sát viền
-                className={`w-auto h-auto object-contain transition-all duration-300 group-hover:scale-105 ${isScrolled ? 'p-1.5' : 'p-2'}`} 
+                // w-auto để ảnh tự điều chỉnh chiều ngang, h-10/h-8 để khóa chiều cao
+                className={`w-auto object-contain mix-blend-multiply transition-all duration-300 group-hover:scale-105 ${isScrolled ? 'h-8' : 'h-10'}`} 
               />
             </div>
           </Link>

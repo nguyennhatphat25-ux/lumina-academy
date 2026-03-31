@@ -1,59 +1,98 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+
+const ROADMAP_DATA = {
+  'IELTS': {
+    title: 'Lộ trình IELTS 8.0+ Chuyên sâu',
+    subtitle: 'Chặng đường từ con số 0 đến làm chủ hoàn toàn 4 kỹ năng.',
+    icon: '📚',
+    steps: [
+      { step: '0 - 3.0', title: 'IELTS Starter', desc: 'Củng cố nền tảng ngữ âm, từ vựng theo chủ đề cơ bản và ngữ pháp cốt lõi.', color: 'border-l-orange-500' },
+      { step: '3.0 - 4.5', title: 'IELTS Foundation', desc: 'Làm quen với format đề thi. Luyện nghe các đoạn hội thoại ngắn và đọc hiểu cơ bản.', color: 'border-l-emerald-500' },
+      { step: '4.5 - 5.5', title: 'IELTS Breakthrough', desc: 'Bắt đầu luyện tập Speaking Part 1 & 2. Rèn kỹ năng Skimming & Scanning cho Reading.', color: 'border-l-blue-500' },
+      { step: '5.5 - 6.5', title: 'IELTS Intensive', desc: 'Tập trung chuyên sâu vào Writing Task 1 (Biểu đồ) và mở rộng từ vựng học thuật (Academic).', color: 'border-l-purple-500' },
+      { step: '6.5 - 7.5', title: 'IELTS Masterclass', desc: 'Sửa lỗi sai cấu trúc Writing Task 2. Luyện phản xạ nhanh Speaking Part 3.', color: 'border-l-red-500' },
+      { step: '7.5 - 8.0+', title: 'IELTS Expert', desc: 'Thực chiến luyện đề liên tục dưới áp lực thời gian. Tối ưu hóa điểm số tuyệt đối.', color: 'border-l-navy-900' },
+    ]
+  },
+  'TOEIC': {
+    title: 'Lộ trình TOEIC 4 Kỹ Năng 900+',
+    subtitle: 'Lộ trình thăng tiến cho sinh viên và người đi làm.',
+    icon: '🎯',
+    steps: [
+      { step: '0 - 350', title: 'TOEIC Basic', desc: 'Xây dựng 3000 từ vựng cốt lõi thường gặp nhất trong môi trường công sở.', color: 'border-l-orange-500' },
+      { step: '350 - 550', title: 'TOEIC Pre-Intermediate', desc: 'Luyện kỹ năng nghe Part 1, 2 và đọc hiểu Part 5, 6.', color: 'border-l-emerald-500' },
+      { step: '550 - 700', title: 'TOEIC Intermediate', desc: 'Làm quen với bẫy trong Part 3, 4. Tăng tốc độ đọc hiểu văn bản dài Part 7.', color: 'border-l-blue-500' },
+      { step: '700 - 850', title: 'TOEIC Advanced', desc: 'Bắt đầu tích hợp luyện TOEIC Speaking & Writing chuẩn quốc tế.', color: 'border-l-purple-500' },
+      { step: '850 - 900+', title: 'TOEIC Master', desc: 'Giải đề thi thật, phân tích lỗi sai và mẹo quản lý thời gian làm bài.', color: 'border-l-navy-900' },
+    ]
+  },
+  'Giao tiếp': {
+    title: 'Anh văn Giao tiếp Phản xạ',
+    subtitle: 'Xóa bỏ rào cản tự ti, tự tin nói tiếng Anh sau 6 tháng.',
+    icon: '🗣️',
+    steps: [
+      { step: 'Tháng 1', title: 'Chuẩn hóa Phát âm', desc: 'Học bảng phiên âm IPA, nắm quy tắc trọng âm, nối âm và ngữ điệu.', color: 'border-l-orange-500' },
+      { step: 'Tháng 2', title: 'Giao tiếp sinh tồn', desc: 'Các tình huống đời sống: Mua sắm, hỏi đường, sân bay, nhà hàng.', color: 'border-l-emerald-500' },
+      { step: 'Tháng 3-4', title: 'Giao tiếp Công sở', desc: 'Tiếng Anh trong phỏng vấn xin việc, viết email, gọi điện thoại.', color: 'border-l-blue-500' },
+      { step: 'Tháng 5', title: 'Thuyết trình', desc: 'Xây dựng cấu trúc bài thuyết trình, ngôn ngữ cơ thể và phản xạ Q&A.', color: 'border-l-purple-500' },
+      { step: 'Tháng 6', title: 'Tranh luận', desc: 'Bày tỏ quan điểm cá nhân, đàm phán và thuyết phục đối tác.', color: 'border-l-navy-900' },
+    ]
+  }
+};
 
 const Roadmap = () => {
+  const [activeTab, setActiveTab] = useState('IELTS');
+  const currentRoadmap = ROADMAP_DATA[activeTab];
+  const tabs = Object.keys(ROADMAP_DATA);
+
   return (
-    <div className="font-sans min-h-screen bg-gray-50">
-      <div className="bg-navy-900 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Lộ trình chinh phục Tiếng Anh</h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">Được thiết kế cá nhân hóa cho từng học viên. Dù bạn mất gốc hay muốn nâng band điểm, Lumina Academy đều có lộ trình chuẩn xác dành cho bạn.</p>
+    <div className="bg-gray-50 min-h-screen font-sans antialiased">
+      <section className="bg-navy-900 text-white py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <span className="bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded-full mb-4">LỘ TRÌNH CHUYÊN SÂU</span>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Chinh phục tiếng Anh theo lộ trình</h1>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">Được thiết kế cá nhân hóa, giúp bạn đạt mục tiêu hiệu quả nhất.</p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="mb-16 text-center">
-          <span className="bg-orange-100 text-orange-600 font-bold px-4 py-1.5 rounded-full text-sm uppercase tracking-wider">LỘ TRÌNH PHỔ BIẾN NHẤT</span>
-          <h2 className="text-3xl font-bold text-navy-900 mt-6">IELTS Từ Mất Gốc Đến 7.0+</h2>
+      <section className="bg-white border-b border-gray-100 sticky top-16 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex space-x-4 h-20 items-center overflow-x-auto justify-center">
+            {tabs.map(tab => (
+              <button key={tab} onClick={() => setActiveTab(tab)} 
+                className={`flex items-center gap-2 px-6 py-3 rounded-2xl border text-sm font-bold transition-all duration-300 ${activeTab === tab ? 'bg-orange-50 border-orange-200 text-orange-600 shadow-sm' : 'bg-white border-transparent text-gray-500 hover:bg-gray-50'}`}>
+                <span className="text-xl">{ROADMAP_DATA[tab].icon}</span>
+                Lộ trình {tab}
+              </button>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {/* Timeline */}
-        <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-transparent before:via-gray-300 before:to-transparent">
+      <section className="py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-extrabold text-navy-900">{currentRoadmap.title}</h2>
+            <p className="text-gray-500 mt-2">{currentRoadmap.subtitle}</p>
+          </div>
           
-          {/* Chặng 1 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-orange-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">1</div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h3 className="font-bold text-navy-900 text-xl mb-2">Chặng 1: Nền tảng (Foundation)</h3>
-              <p className="text-gray-500 text-sm mb-4">Lấy lại căn bản ngữ pháp, xây dựng vốn từ vựng cốt lõi và luyện phát âm chuẩn IPA.</p>
-              <p className="text-xs font-bold text-orange-500">Mục tiêu: Tương đương IELTS 3.5 - 4.0</p>
-            </div>
-          </div>
-
-          {/* Chặng 2 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-orange-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">2</div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <h3 className="font-bold text-navy-900 text-xl mb-2">Chặng 2: Tăng tốc (Pre-IELTS)</h3>
-              <p className="text-gray-500 text-sm mb-4">Làm quen với cấu trúc đề thi IELTS. Luyện kỹ năng Nghe - Đọc cơ bản, tập phản xạ Nói theo chủ đề.</p>
-              <p className="text-xs font-bold text-orange-500">Mục tiêu: IELTS 5.0 - 5.5</p>
-            </div>
-          </div>
-
-          {/* Chặng 3 */}
-          <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-navy-900 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">3</div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-l-4 border-l-navy-900">
-              <h3 className="font-bold text-navy-900 text-xl mb-2">Chặng 3: Bứt phá (Masterclass)</h3>
-              <p className="text-gray-500 text-sm mb-4">Luyện đề thực chiến chuyên sâu. Mở rộng từ vựng học thuật, viết Task 1 & 2 logic, hoàn thiện kỹ năng Speaking trôi chảy.</p>
-              <p className="text-xs font-bold text-navy-900">Mục tiêu: IELTS 6.5 - 7.0+</p>
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <Link to="/course" className="text-sm font-bold text-orange-500 hover:text-orange-600">Xem khóa học phù hợp →</Link>
+          {/* Cấu trúc các bước chạy dọc xuống dài hơn */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {currentRoadmap.steps.map((step, index) => (
+              <div key={index} className={`bg-white rounded-3xl p-8 border border-gray-100 shadow-sm border-l-4 ${step.color} hover:shadow-xl transition-all duration-300 relative overflow-hidden`}>
+                <span className="absolute -top-4 -right-4 text-8xl font-black text-gray-50 opacity-50 pointer-events-none">{index + 1}</span>
+                <div className="flex justify-between items-center mb-4 relative z-10">
+                  <span className="bg-gray-100 text-gray-800 text-[10px] font-bold px-3 py-1 rounded-lg">BƯỚC {index + 1}</span>
+                  <span className="text-sm font-extrabold text-orange-500 bg-orange-50 px-3 py-1 rounded-lg">{step.step}</span>
+                </div>
+                <h3 className="font-extrabold text-navy-900 text-xl mb-3 relative z-10">{step.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-6 relative z-10">{step.desc}</p>
+                <button className="text-navy-900 font-bold text-sm hover:text-orange-500 transition-colors flex items-center gap-1 relative z-10">Xem khóa học phù hợp →</button>
               </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
